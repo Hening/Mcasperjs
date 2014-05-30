@@ -1,0 +1,292 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Debugging &mdash; CasperJS 1.1.0-DEV documentation</title>
+    
+    <link rel="stylesheet" href="basic.css" tppabs="http://casperjs.readthedocs.org/en/latest/_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" tppabs="http://casperjs.readthedocs.org/en/latest/_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="badge_only.css" tppabs="https://media.readthedocs.org/css/badge_only.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.1.0-DEV',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery-2.0.3.min.js" tppabs="https://media.readthedocs.org/javascript/jquery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="jquery-migrate-1.2.1.min.js" tppabs="https://media.readthedocs.org/javascript/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="underscore.js" tppabs="https://media.readthedocs.org/javascript/underscore.js"></script>
+    <script type="text/javascript" src="doctools.js" tppabs="https://media.readthedocs.org/javascript/doctools.js"></script>
+    <link rel="shortcut icon" href="_static/casperjs-favicon.ico"/>
+    <link rel="top" title="CasperJS 1.1.0-DEV documentation" href="index.html" />
+    <link rel="next" title="FAQ" href="faq.html" />
+    <link rel="prev" title="Extending" href="extending.html" />
+    <link rel="stylesheet" href="css-family=Asap-400,700,400italic,700italic&subset=latin,latin-ext.css" tppabs="http://fonts.googleapis.com/css?family=Asap:400,700,400italic,700italic&subset=latin,latin-ext">
+    <link rel="stylesheet" title="Dark theme" href="casperjs-dark.css" tppabs="http://casperjs.readthedocs.org/en/latest/_static/casperjs-dark.css">
+    <link rel="alternate stylesheet" title="Light theme" href="_static/casperjs-light.css">
+    <script type="text/javascript" src="style-switcher.js" tppabs="http://casperjs.readthedocs.org/en/latest/_static/style-switcher.js"></script>
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" tppabs="http://casperjs.readthedocs.org/en/latest/genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="faq.html" tppabs="http://casperjs.readthedocs.org/en/latest/faq.html" title="FAQ"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="extending.html" tppabs="http://casperjs.readthedocs.org/en/latest/extending.html" title="Extending"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html" tppabs="http://casperjs.readthedocs.org/en/latest/index.html">CasperJS 1.1.0-DEV documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <span class="target" id="debugging"></span><div class="section" id="index-0">
+<span id="id1"></span><h1>Debugging<a class="headerlink" href="#index-0" title="Permalink to this headline">Â¶</a></h1>
+<div class="contents local topic" id="a-few-tips-for-debugging-your-casper-scripts">
+<p class="topic-title first">A few tips for debugging your casper scripts:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#use-the-verbose-mode" id="id2">Use the verbose mode</a></li>
+<li><a class="reference internal" href="#hook-in-the-deep-using-events" id="id3">Hook in the deep using events</a></li>
+<li><a class="reference internal" href="#dump-serialized-values-to-the-console" id="id4">Dump serialized values to the console</a></li>
+<li><a class="reference internal" href="#localize-yourself-in-modules" id="id5">Localize yourself in modules</a></li>
+<li><a class="reference internal" href="#name-your-closures" id="id6">Name your closures</a></li>
+</ul>
+</div>
+<div class="section" id="use-the-verbose-mode">
+<h2><a class="toc-backref" href="#id2">Use the <span class="target" id="index-1"></span>verbose mode</a><a class="headerlink" href="#use-the-verbose-mode" title="Permalink to this headline">Â¶</a></h2>
+<p>By default &amp; by design, a <tt class="docutils literal"><span class="pre">Casper</span></tt> instance won&#8217;t print anything to the console. This can be very limitating &amp; frustrating when creating or debugging scripts, so a good practice is to always start coding a script using these <span class="target" id="index-2"></span>settings:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">casper</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;casper&#39;</span><span class="p">).</span><span class="nx">create</span><span class="p">({</span>
+    <span class="nx">verbose</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nx">logLevel</span><span class="o">:</span> <span class="s2">&quot;debug&quot;</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">verbose</span></tt> setting will tell Casper to write every logged message at the <tt class="docutils literal"><span class="pre">logLevel</span></tt> logging level onto the standard output, so you&#8217;ll be able to trace every step made.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Output will then be pretty verbose, and will potentially display sensitive informations onto the console. <strong>Use with care on production.</strong></p>
+</div>
+</div>
+<div class="section" id="hook-in-the-deep-using-events">
+<h2><a class="toc-backref" href="#id3">Hook in the deep using <span class="target" id="index-3"></span>events</a><a class="headerlink" href="#hook-in-the-deep-using-events" title="Permalink to this headline">Â¶</a></h2>
+<p><a class="reference internal" href="events-filters.html" tppabs="http://casperjs.readthedocs.org/en/latest/events-filters.html"><em>Events</em></a> are a very powerful features of CasperJS, and you should probably give it a look if you haven&#8217;t already.</p>
+<p>Some interesting events you may eventually use to debug your scripts:</p>
+<ul class="simple">
+<li>The <tt class="docutils literal"><span class="pre">http.status.XXX</span></tt> event will be emitted everytime a resource is sent with the <a class="reference external" href="javascript:if(confirm('http://en.wikipedia.org/wiki/List_of_HTTP_status_codes  \n\n¸ÃÎÄ¼þÎ´±» Teleport Pro ÏÂÔØ£¬ÒòÎª ËüÎ»ÓÚÆðÊ¼µØÖ·ÒÔÉèÖÃµÄ±ß½çÒÔÍâµÄÓò»òÂ·¾¶ÖÐ¡£  \n\nÄãÏëÒª´Ó·þÎñÆ÷´ò¿ªËüÂð?'))window.location='http://en.wikipedia.org/wiki/List_of_HTTP_status_codes'" tppabs="http://en.wikipedia.org/wiki/List_of_HTTP_status_codes">HTTP code</a> corresponding to <tt class="docutils literal"><span class="pre">XXX</span></tt>;</li>
+<li>The <tt class="docutils literal"><span class="pre">remote.alert</span></tt> everytime an <tt class="docutils literal"><span class="pre">alert()</span></tt> call is performed client-side;</li>
+<li><tt class="docutils literal"><span class="pre">remote.message</span></tt> everytime a message is sent to the client-side console;</li>
+<li><tt class="docutils literal"><span class="pre">step.added</span></tt> everytime a step is added to the stack;</li>
+<li>etcâ€¦</li>
+</ul>
+<p>Listening to an event is dead easy:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">casper</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;http.status.404&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">resource</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Hey, this one is 404: &#39;</span> <span class="o">+</span> <span class="nx">resource</span><span class="p">.</span><span class="nx">url</span><span class="p">,</span> <span class="s1">&#39;warning&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p>Ensure to check the <a class="reference internal" href="events-filters.html#events-list" tppabs="http://casperjs.readthedocs.org/en/latest/events-filters.html#events-list"><em>full list</em></a> of all the other available events.</p>
+</div>
+<div class="section" id="dump-serialized-values-to-the-console">
+<span id="debugging-dump"></span><h2><a class="toc-backref" href="#id4">Dump serialized values to the console</a><a class="headerlink" href="#dump-serialized-values-to-the-console" title="Permalink to this headline">Â¶</a></h2>
+<p>Sometimes it&#8217;s helpful to inspect a variable, especially Object contents. The <a class="reference internal" href="utils.html#utils-dump" tppabs="http://casperjs.readthedocs.org/en/latest/modules/utils.html#utils-dump"><em>utils_dump()</em></a> function can achieve just that:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;utils&#39;</span><span class="p">).</span><span class="nx">dump</span><span class="p">({</span>
+    <span class="nx">foo</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">bar</span><span class="o">:</span> <span class="mi">42</span>
+    <span class="p">},</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><a class="reference internal" href="utils.html#utils-dump" tppabs="http://casperjs.readthedocs.org/en/latest/modules/utils.html#utils-dump"><em>utils_dump()</em></a> won&#8217;t be able to serialize function nor complex cyclic structures though.</p>
+</div>
+</div>
+<div class="section" id="localize-yourself-in-modules">
+<h2><a class="toc-backref" href="#id5">Localize yourself in modules</a><a class="headerlink" href="#localize-yourself-in-modules" title="Permalink to this headline">Â¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="deprecated">
+<span class="versionmodified">Deprecated since version 1.1.</span></p>
+<p class="last">As of 1.1, CasperJS uses PhantomJS&#8217; builtin <cite>require</cite> and won&#8217;t expose the <cite>__file__</cite> variable anymore.</p>
+</div>
+<p>If you&#8217;re creating Casper modules, a cool thing to know is that there&#8217;s a special built-in variable available in every module, <tt class="docutils literal"><span class="pre">__file__</span></tt>, which contains the absolute path to current javascript file (the module file).</p>
+</div>
+<div class="section" id="name-your-closures">
+<h2><a class="toc-backref" href="#id6">Name your closures</a><a class="headerlink" href="#name-your-closures" title="Permalink to this headline">Â¶</a></h2>
+<p>Probably one of the most easy but effective best practice, always name your closures:</p>
+<p><strong>Hard to track:</strong></p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">casper</span><span class="p">.</span><span class="nx">start</span><span class="p">(</span><span class="s1">&#39;http://foo.bar/&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// ...</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p><strong>Easier:</strong></p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">casper</span><span class="p">.</span><span class="nx">start</span><span class="p">(</span><span class="s1">&#39;http://foo.bar/&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="nx">afterStart</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="kd">function</span> <span class="nx">evaluateStuffAfterStart</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// ...</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p>That way, everytime one is failing, its name will be printed out in the <span class="target" id="index-4"></span>stack trace, <strong>so you can more easily locate it within your code</strong>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This one also applies for all your other Javascript works, of course ;)</p>
+</div>
+</div>
+</div>
+
+    <!-- RTD Injected Body -->
+
+    <link rel="stylesheet" href="readthedocs-doc-embed.css" tppabs="https://media.readthedocs.org/css/readthedocs-doc-embed.css" type="text/css" />
+    <script type="text/javascript" src="readthedocs-doc-embed.js" tppabs="https://media.readthedocs.org/javascript/readthedocs-doc-embed.js"></script>
+
+    <script type="text/javascript">
+      // This is included here because other places don't have access to the pagename variable.
+      var READTHEDOCS_DATA = {
+        project: "casperjs",
+        version: "latest",
+        page: "debugging",
+        theme: "casperjs"
+      }
+    </script>    
+
+    <!-- RTD Analytics Code -->
+    <!-- Included in the header because you don't have a footer block. -->
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-17997319-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www/') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+    <!-- End RTD Analytics Code -->
+    <!-- End RTD Injected Body -->
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="index.html" tppabs="http://casperjs.readthedocs.org/en/latest/index.html">Table Of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html" tppabs="http://casperjs.readthedocs.org/en/latest/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html" tppabs="http://casperjs.readthedocs.org/en/latest/quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html" tppabs="http://casperjs.readthedocs.org/en/latest/cli.html">Using the command line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="selectors.html" tppabs="http://casperjs.readthedocs.org/en/latest/selectors.html">Selectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html" tppabs="http://casperjs.readthedocs.org/en/latest/testing.html">Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index-1.html" tppabs="http://casperjs.readthedocs.org/en/latest/modules/index.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="writing_modules.html" tppabs="http://casperjs.readthedocs.org/en/latest/writing_modules.html">Writing CasperJS modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="events-filters.html" tppabs="http://casperjs.readthedocs.org/en/latest/events-filters.html">Events &amp; filters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging.html" tppabs="http://casperjs.readthedocs.org/en/latest/logging.html">Logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extending.html" tppabs="http://casperjs.readthedocs.org/en/latest/extending.html">Extending</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Debugging</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#use-the-verbose-mode">Use the verbose mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hook-in-the-deep-using-events">Hook in the deep using events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dump-serialized-values-to-the-console">Dump serialized values to the console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#localize-yourself-in-modules">Localize yourself in modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#name-your-closures">Name your closures</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html" tppabs="http://casperjs.readthedocs.org/en/latest/faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html" tppabs="http://casperjs.readthedocs.org/en/latest/changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index-2.html" tppabs="http://casperjs.readthedocs.org/en/latest/upgrading/index.html">Upgrading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html" tppabs="http://casperjs.readthedocs.org/en/latest/credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html" tppabs="http://casperjs.readthedocs.org/en/latest/license.html">License</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="extending.html" tppabs="http://casperjs.readthedocs.org/en/latest/extending.html"
+                        title="previous chapter">Extending</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="faq.html" tppabs="http://casperjs.readthedocs.org/en/latest/faq.html"
+                        title="next chapter">FAQ</a></p><h3>Index</h3>
+<p><a href="genindex.html" tppabs="http://casperjs.readthedocs.org/en/latest/genindex.html">Thesaurus</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="debugging.txt.htm" tppabs="http://casperjs.readthedocs.org/en/latest/_sources/debugging.txt"
+           rel="nofollow">Show Source</a></li>
+   
+     <li><a href="javascript:if(confirm('https://github.com/n1k0/casperjs/blob/master/docs/debugging.rst  \n\n¸ÃÎÄ¼þÎ´±» Teleport Pro ÏÂÔØ£¬ÒòÎª ÊÇÒ»¸öÊ¹ÓÃÎ´Ö§³ÖÐ­ÒéµÄµØÖ·(ÀýÈç: gopher)¡£  \n\nÄãÏëÒª´Ó·þÎñÆ÷´ò¿ªËüÂð?'))window.location='https://github.com/n1k0/casperjs/blob/master/docs/debugging.rst'" tppabs="https://github.com/n1k0/casperjs/blob/master/docs/debugging.rst">
+       Show on GitHub</a></li>
+     <li><a href="javascript:if(confirm('https://github.com/n1k0/casperjs/edit/master/docs/debugging.rst  \n\n¸ÃÎÄ¼þÎ´±» Teleport Pro ÏÂÔØ£¬ÒòÎª ÊÇÒ»¸öÊ¹ÓÃÎ´Ö§³ÖÐ­ÒéµÄµØÖ·(ÀýÈç: gopher)¡£  \n\nÄãÏëÒª´Ó·þÎñÆ÷´ò¿ªËüÂð?'))window.location='https://github.com/n1k0/casperjs/edit/master/docs/debugging.rst'" tppabs="https://github.com/n1k0/casperjs/edit/master/docs/debugging.rst">
+       Edit on GitHub</a></li>
+   
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="http://casperjs.readthedocs.org/en/latest/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script><h3>Donate</h3>
+<div class="donate">
+    <div class="paypal">
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+            <input type="hidden" name="cmd" value="_s-xclick">
+            <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----">
+            <input type="image" src="btn_donate_LG.gif" tppabs="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="Donate" title="Donate">
+            <img alt="" border="0" src="pixel.gif" tppabs="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" width="1" height="1">
+        </form>
+        <small>(ghosts have bills, you know)</small>
+    </div>
+    <div class="flattr">
+        <a href="javascript:if(confirm('http://flattr.com/thing/586241/CasperJS-a-navigation-scripting-and-testing-utility-for-PhantomJS  \n\n¸ÃÎÄ¼þÎ´±» Teleport Pro ÏÂÔØ£¬ÒòÎª ËüÎ»ÓÚÆðÊ¼µØÖ·ÒÔÉèÖÃµÄ±ß½çÒÔÍâµÄÓò»òÂ·¾¶ÖÐ¡£  \n\nÄãÏëÒª´Ó·þÎñÆ÷´ò¿ªËüÂð?'))window.location='http://flattr.com/thing/586241/CasperJS-a-navigation-scripting-and-testing-utility-for-PhantomJS'" tppabs="http://flattr.com/thing/586241/CasperJS-a-navigation-scripting-and-testing-utility-for-PhantomJS" class="flattr" target="_blank"><img src="flattr-badge-large.png" tppabs="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0"></a>
+    </div>
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" tppabs="http://casperjs.readthedocs.org/en/latest/genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="faq.html" tppabs="http://casperjs.readthedocs.org/en/latest/faq.html" title="FAQ"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="extending.html" tppabs="http://casperjs.readthedocs.org/en/latest/extending.html" title="Extending"
+             >previous</a> |</li>
+        <li><a href="index.html" tppabs="http://casperjs.readthedocs.org/en/latest/index.html">CasperJS 1.1.0-DEV documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011-2013 Nicolas Perriault and contributors. CasperJS logo by Jeremy Forveille.
+      Created using <a href="javascript:if(confirm('http://sphinx.pocoo.org/  \n\n¸ÃÎÄ¼þÎ´±» Teleport Pro ÏÂÔØ£¬ÒòÎª ËüÎ»ÓÚÆðÊ¼µØÖ·ÒÔÉèÖÃµÄ±ß½çÒÔÍâµÄÓò»òÂ·¾¶ÖÐ¡£  \n\nÄãÏëÒª´Ó·þÎñÆ÷´ò¿ªËüÂð?'))window.location='http://sphinx.pocoo.org/'" tppabs="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
