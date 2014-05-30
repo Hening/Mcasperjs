@@ -1,0 +1,10 @@
+*.bak
+*.pyc
+*.js~
+*.txt
+*.txt~
+*.py.swp
+*.apk
+*.png
+*.js.swp
+*documentation*
