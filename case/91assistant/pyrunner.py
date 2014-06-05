@@ -8,7 +8,7 @@ from os.path import getsize
 from urllib import urlopen
 
 #config contact here
-contacts = '18612081037,18612081037'
+contacts = '18612081037'
 
 
 def shell(c):
@@ -40,9 +40,12 @@ if len(sys.argv) <=0 :
 
 smsserver = 'http://appstest.baidu.com:8090/zaxon/smshelper_for_91/smshelper.php?'
 
+casepath = '/home/zaxon/baidu91/mcasperjs/case/91assistant'
+
 for case in sys.argv:
-    if case != 'pyrunner.py':
-        cmd = 'casperjs %s'%(case+'.js')
+    if case.find('pyrunner') == -1:
+        case = casepath+'/'+case
+        cmd = '/usr/local/bin/casperjs %s'%(case+'.js')
         sub = shell(cmd)
         errors,apkPcmd = caseRunCheck(sub)
         if len(errors) > 0 :
@@ -64,5 +67,9 @@ for case in sys.argv:
                     url = url + '&msg=' + errorreport+'\'线上APK下载错误(apk可能安装失败)--分类:%s，APK名:%s，下载URL：%s\''%(cmd[3],cmd[4],cmd[5])
                     urlopen(url)
                 else :
+                    url = smsserver + 'ct=' + contacts
+                    errorreport = '91Asisstant Online Monitor \n Case : %s \n' % (case)
+                    url = url + '&msg=' + '\'91 download check OK\''
+                    urlopen(url)
                     print '\033[32;1mPASS\033[0m  apk大小校验OK'
 

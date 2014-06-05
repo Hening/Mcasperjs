@@ -1,2 +1,3 @@
+PATH='/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/zaxon/Android/adt-bundle-linux-x86_64-20131030/sdk/tools:/home/zaxon/Android/adt-bundle-linux-x86_64-20131030/sdk/platform-tools:/home/zaxon/java/jdk1.7.0_51/bin:/home/zaxon/Android/adt-bundle-linux-x86_64-20131030/sdk/build-tools:/home/zaxon/Android/adt-bundle-linux-x86_64-20131030/sdk/tools:/home/zaxon/Android/adt-bundle-linux-x86_64-20131030/sdk/platform-tools:/home/zaxon/java/jdk1.7.0_51/bin:/home/zaxon/Android/adt-bundle-linux-x86_64-20131030/sdk/build-tools/android-4.4'
 rm *.apk
-python pyrunner.py 91download
+python /home/zaxon/baidu91/mcasperjs/case/91assistant/pyrunner.py  91download
