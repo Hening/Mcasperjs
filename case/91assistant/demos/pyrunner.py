@@ -54,7 +54,7 @@ if len(sys.argv) <=0 :
 
 smsserver = 'http://appstest.baidu.com:8090/zaxon/smshelper_for_91/smshelper.php?'
 
-path = '/home/zaxon/baidu91/mcasperjs/case/91assistant/demos'
+path = '/Users/zaxon/research/servermonitor/case/91assistant/demos'
 
 for case in sys.argv:
     casename = case
@@ -91,5 +91,5 @@ for case in sys.argv:
                     url = url + '&msg=' + errorreport+'线上APK下载错误(apk可能安装失败)--APK:%s，下载URL：%s\''%(cmd[3],cmd[4])
                     urlopen(url)
                 else :
-                    print '\033[32;1mPASS\033[0m %s apk大小校验OK'%(cmd[3])
+                    print '\033[32;1mPASS\033[0m %s apk正确性校验OK'%(cmd[3])
 
